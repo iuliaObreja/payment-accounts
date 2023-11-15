@@ -15,6 +15,7 @@ public class CardMapper {
 
     public CardVO fromCardEntityToVo(Card card) {
         return CardVO.builder()
+                .id(card.getCardId())
                 .type(card.getType())
                 .number(card.getNumber())
                 .build();

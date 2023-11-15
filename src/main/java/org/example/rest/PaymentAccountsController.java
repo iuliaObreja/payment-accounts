@@ -30,12 +30,13 @@ public class PaymentAccountsController {
     }
 
     @PutMapping("/{id}/add/card")
-    public void addCard(@PathVariable String id, @Valid @RequestBody CardVO cardVO) {
+    public void addCard(@PathVariable Integer id, @Valid @RequestBody CardVO cardVO) {
         paymentAccountsService.addCardToAccount(id, cardVO);
     }
 
     @PutMapping("/{id}/delete/card")
-    public void deleteCard(@PathVariable Integer id, @RequestParam(value = "cardId") Integer cardId) {
+    public void deleteCard(@PathVariable Integer id,
+                           @RequestParam(value = "id") Integer cardId) {
         paymentAccountsService.removeCardFromAccount(id, cardId);
     }
 

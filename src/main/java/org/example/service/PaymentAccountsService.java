@@ -13,11 +13,9 @@ public interface PaymentAccountsService {
 
     List<AccountVO> getAllAccounts();
 
-    void addCardToAccount(String accountId, CardVO cardVO);
+    void addCardToAccount(Integer accountId, CardVO cardVO);
 
     void removeCardFromAccount(Integer accountId, Integer cardId);
 
     List<CardVO> getAllCards(String accountId, CardType cardType);
-
-    public List<Customer> getAllCustomers();
 }
