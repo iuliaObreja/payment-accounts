@@ -9,6 +9,7 @@ import org.example.model.vo.AccountVO;
 import org.example.model.vo.CardVO;
 import org.example.repository.AccountRepository;
 import org.example.repository.CardRepository;
+import org.example.rest.advice.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,9 @@ import static org.example.common.CardType.CREDIT;
 
 @Service
 public class PaymentAccountsServiceImpl implements PaymentAccountsService {
+
+    private static final String ACCOUNT = "account";
+    private static final String CARD = "card";
 
     @Autowired
     private AccountMapper accountMapper;
@@ -35,9 +39,9 @@ public class PaymentAccountsServiceImpl implements PaymentAccountsService {
     private CardRepository cardRepository;
 
     @Transactional
-    public void createAccount(AccountVO account) {
+    public AccountVO createAccount(AccountVO account) {
         Account accountEntity = accountMapper.fromVoToEntity(account);
-        accountRepository.save(accountEntity);
+        return accountMapper.fromEntityToVo(accountRepository.save(accountEntity));
     }
 
     public List<AccountVO> getAllAccounts() {
@@ -48,40 +52,49 @@ public class PaymentAccountsServiceImpl implements PaymentAccountsService {
     public void addCardToAccount(Integer accountId, CardVO cardVO) {
         Optional<Account> optionalAccount = accountRepository.findById(accountId);
 
-        optionalAccount.ifPresent(account -> {
-            Card cardToAttach = cardMapper.fromCardVoToEntity(cardVO);
-            if (CREDIT.equals(cardVO.type())) {
-                account.getCreditCards().add(cardToAttach);
-            } else {
-                account.getDebitCards().add(cardToAttach);
-            }
-        });
+        Account account = treatAccountNotFoundCase(optionalAccount, accountId);
+        Card cardToAttach = cardMapper.fromCardVoToEntity(cardVO);
+        if (CREDIT.equals(cardVO.type())) {
+            account.getCreditCards().add(cardToAttach);
+        } else {
+            account.getDebitCards().add(cardToAttach);
+        }
     }
 
     @Transactional
     public void removeCardFromAccount(Integer accountId, Integer cardId) {
         Optional<Account> optionalAccount = accountRepository.findById(accountId);
-        Optional<Card> optionalCard = cardRepository.findById(cardId);
+        Account account = treatAccountNotFoundCase(optionalAccount, accountId);
 
-        optionalAccount.ifPresent(account -> {
-            optionalCard.ifPresent(card -> {
-                if (CREDIT.equals(card.getType())) {
-                    account.getCreditCards().remove(card);
-                } else {
-                    account.getDebitCards().remove(card);
-                }
-            });
-        });
+        Optional<Card> optionalCard = cardRepository.findById(cardId);
+        if (optionalCard.isEmpty()) {
+            throw new ResourceNotFoundException(CARD, cardId);
+        }
+
+        Card card = optionalCard.get();
+        if (CREDIT.equals(card.getType())) {
+            account.getCreditCards().remove(card);
+        } else {
+            account.getDebitCards().remove(card);
+        }
     }
 
     @Transactional(readOnly = true)
     public List<CardVO> getAllCards(Integer accountId, CardType cardType) {
         Optional<Account> optionalAccount = accountRepository.findById(accountId);
+        treatAccountNotFoundCase(optionalAccount, accountId);
         return optionalAccount.isPresent() ? getCardVOsByType(optionalAccount.get(), cardType) : emptyList();
     }
 
     private List<CardVO> getCardVOsByType(Account account, CardType type) {
         return CREDIT.equals(type) ? account.getCreditCards().stream().map(cardMapper::fromCardEntityToVo).toList() :
                 account.getDebitCards().stream().map(cardMapper::fromCardEntityToVo).toList();
+    }
+
+    private Account treatAccountNotFoundCase(Optional<Account> optionalAccount, Integer id) {
+        if (optionalAccount.isEmpty()) {
+            throw new ResourceNotFoundException(ACCOUNT, id);
+        }
+        return optionalAccount.get();
     }
 }

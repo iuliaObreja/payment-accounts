@@ -19,9 +19,8 @@ public class PaymentAccountsController {
     public PaymentAccountsService paymentAccountsService;
 
     @PostMapping
-    public ResponseEntity<String> createAccount(@Valid @RequestBody AccountVO account) {
-        paymentAccountsService.createAccount(account);
-        return ResponseEntity.ok("Account created");
+    public ResponseEntity<AccountVO> createAccount(@Valid @RequestBody AccountVO account) {
+        return ResponseEntity.ok(paymentAccountsService.createAccount(account));
     }
 
     @GetMapping

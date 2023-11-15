@@ -20,5 +20,4 @@ public class SecurityConfiguration {
 //                        .ignoringRequestMatchers("/h2-console/**"));
 //        return http.build();
 //    }
-
 }

@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface PaymentAccountsService {
 
-    void createAccount(AccountVO account);
+    AccountVO createAccount(AccountVO account);
 
     List<AccountVO> getAllAccounts();
 
