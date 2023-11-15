@@ -16,7 +16,11 @@ public class Customer {
     private String name;
     private Date birthday;
 
-    @ManyToOne
-    @JoinColumn(name = "account_id")
-    private Account account;
+    public Customer(){}
+
+    public Customer(Integer customerId, String name, Date birthday) {
+        this.customerId = customerId;
+        this.name = name;
+        this.birthday = birthday;
+    }
 }

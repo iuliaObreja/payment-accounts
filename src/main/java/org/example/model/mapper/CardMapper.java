@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 public class CardMapper {
     public Card fromCardVoToEntity(CardVO cardVO) {
         return Card.builder()
-                .type(cardVO.getType())
-                .number(cardVO.getNumber())
+                .type(cardVO.type())
+                .number(cardVO.number())
                 .build();
     }
 

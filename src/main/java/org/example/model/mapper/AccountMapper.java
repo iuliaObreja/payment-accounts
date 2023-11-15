@@ -21,10 +21,10 @@ public class AccountMapper {
     private CustomerMapper customerMapper;
 
     public Account fromVoToEntity(AccountVO accountVO) {
-        List<CardVO> creditCards = Optional.ofNullable(accountVO.getCreditCards()).orElse(emptyList());
+        List<CardVO> creditCards = Optional.ofNullable(accountVO.creditCards()).orElse(emptyList());
         return Account.builder()
-                .iban(accountVO.getIban())
-                .customers(accountVO.getCustomers()
+                .iban(accountVO.iban())
+                .customers(accountVO.customers()
                         .stream()
                         .map(customerMapper::fromCustomerVoToEntity)
                         .toList())
@@ -32,7 +32,7 @@ public class AccountMapper {
                         .map(cardMapper::fromCardVoToEntity)
                         .toList()
                 )
-                .debitCards(accountVO.getDebitCards()
+                .debitCards(accountVO.debitCards()
                         .stream()
                         .map(cardMapper::fromCardVoToEntity)
                         .toList()
@@ -42,6 +42,7 @@ public class AccountMapper {
 
     public AccountVO fromEntityToVo(Account account) {
         return AccountVO.builder()
+                .accountId(account.getAccountId())
                 .iban(account.getIban())
                 .customers(account.getCustomers()
                         .stream()

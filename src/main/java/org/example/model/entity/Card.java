@@ -3,6 +3,8 @@ package org.example.model.entity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.example.common.CardType;
 
 @Entity
@@ -20,7 +22,11 @@ public class Card {
     @Column(name = "number")
     private String number;
 
-    @ManyToOne
-    @JoinColumn(name = "account_id")
-    private Account account;
+    public Card(){}
+
+    public Card(Integer cardId, CardType type, String number) {
+        this.cardId = cardId;
+        this.type = type;
+        this.number = number;
+    }
 }

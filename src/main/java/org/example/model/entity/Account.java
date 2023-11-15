@@ -17,11 +17,11 @@ public class Account {
     @Column(name = "iban")
     private String iban;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Customer> customers;
-    @OneToMany(mappedBy = "account")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Card> creditCards;
-    @OneToMany(mappedBy = "account")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Card> debitCards;
 
     public Account(Integer accountId, String iban, List<Customer> customers, List<Card> creditCards, List<Card> debitCards) {

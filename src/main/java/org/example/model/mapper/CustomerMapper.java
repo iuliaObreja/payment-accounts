@@ -9,8 +9,8 @@ public class CustomerMapper {
 
     public Customer fromCustomerVoToEntity(CustomerVO customerVO) {
         return Customer.builder()
-                .name(customerVO.getName())
-                .birthday(customerVO.getBirthday())
+                .name(customerVO.name())
+                .birthday(customerVO.birthday())
                 .build();
     }
 
