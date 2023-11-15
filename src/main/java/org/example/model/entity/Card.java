@@ -1,25 +1,26 @@
 package org.example.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import org.example.common.CardType;
 
 @Entity
-@Getter
+@Data
 @Builder
 public class Card {
 
     @Id
-    @GeneratedValue
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer cardId;
 
     @Column(name = "type")
     private CardType type;
 
     @Column(name = "number")
     private String number;
+
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
 }

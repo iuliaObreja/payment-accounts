@@ -1,16 +1,25 @@
 package org.example.model.vo;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
+import org.example.rest.jackson.CustomDateSerializer;
 
 import java.util.Date;
 
-@AllArgsConstructor
-@Getter
+@Data
 @Builder
-public final class CustomerVO {
+public class CustomerVO {
     private final String name;
-    //todo: add serializer/deserializer
+    @JsonSerialize(using = CustomDateSerializer.class)
     private final Date birthday;
+
+    public CustomerVO(
+            @JsonProperty(value = "name", required = true) String name,
+            @JsonProperty(value = "birthday") Date birthday
+    ) {
+        this.name = name;
+        this.birthday = birthday;
+    }
 }

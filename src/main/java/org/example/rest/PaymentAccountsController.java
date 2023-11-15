@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("payment/accounts")
+@RestController
+@RequestMapping("/payment/accounts")
 public class PaymentAccountsController {
 
     @Autowired
@@ -21,6 +22,11 @@ public class PaymentAccountsController {
     public ResponseEntity<String> createAccount(@Valid @RequestBody AccountVO account) {
         paymentAccountsService.createAccount(account);
         return ResponseEntity.ok("Account created");
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AccountVO>> getAllAccounts() {
+        return ResponseEntity.ok(paymentAccountsService.getAllAccounts());
     }
 
     @PutMapping("/{id}/add/card")

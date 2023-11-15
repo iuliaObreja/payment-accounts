@@ -1,25 +1,22 @@
 package org.example.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
 import java.util.Date;
 
 @Entity
-@Getter
+@Data
 @Builder
 public class Customer {
     @Id
-    @GeneratedValue
-    private Integer id;
-
-    @Column(name = "name")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer customerId;
     private String name;
-
-    @Column(name = "birthday")
     private Date birthday;
+
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
 }

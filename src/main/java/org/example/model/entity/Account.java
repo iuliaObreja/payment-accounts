@@ -1,29 +1,37 @@
 package org.example.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
 import java.util.List;
 
 @Entity
+@Data
 @Builder
-@Getter
 public class Account {
     @Id
-    @GeneratedValue
-    private final Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer accountId;
 
     @Column(name = "iban")
-    private final String iban;
+    private String iban;
 
-    // add relationship
-    private final List<Customer> customers;
-    // add relationship
-    private final List<Card> creditCards;
-    // add relationship
-    private final List<Card> debitCards;
+    @OneToMany(mappedBy = "account")
+    private List<Customer> customers;
+    @OneToMany(mappedBy = "account")
+    private List<Card> creditCards;
+    @OneToMany(mappedBy = "account")
+    private List<Card> debitCards;
+
+    public Account(Integer accountId, String iban, List<Customer> customers, List<Card> creditCards, List<Card> debitCards) {
+        this.accountId = accountId;
+        this.iban = iban;
+        this.customers = customers;
+        this.creditCards = creditCards;
+        this.debitCards = debitCards;
+    }
+
+    public Account() {
+    }
 }
