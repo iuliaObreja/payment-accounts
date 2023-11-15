@@ -41,7 +41,7 @@ public class PaymentAccountsController {
     }
 
     @GetMapping("/{id}/cards")
-    public List<CardVO> getAllCards(@PathVariable String id, @RequestParam(value = "type") CardType type) {
+    public List<CardVO> getAllCards(@PathVariable Integer id, @RequestParam(value = "type") CardType type) {
         return paymentAccountsService.getAllCards(id, type);
     }
 }

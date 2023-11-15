@@ -75,7 +75,13 @@ public class PaymentAccountsServiceImpl implements PaymentAccountsService {
     }
 
     @Transactional(readOnly = true)
-    public List<CardVO> getAllCards(String accountId, CardType cardType) {
-        return emptyList();
+    public List<CardVO> getAllCards(Integer accountId, CardType cardType) {
+        Optional<Account> optionalAccount = accountRepository.findById(accountId);
+        return optionalAccount.isPresent() ? getCardVOsByType(optionalAccount.get(), cardType) : emptyList();
+    }
+
+    private List<CardVO> getCardVOsByType(Account account, CardType type) {
+        return CREDIT.equals(type) ? account.getCreditCards().stream().map(cardMapper::fromCardEntityToVo).toList() :
+                account.getDebitCards().stream().map(cardMapper::fromCardEntityToVo).toList();
     }
 }

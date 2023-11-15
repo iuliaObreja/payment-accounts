@@ -17,5 +17,5 @@ public interface PaymentAccountsService {
 
     void removeCardFromAccount(Integer accountId, Integer cardId);
 
-    List<CardVO> getAllCards(String accountId, CardType cardType);
+    List<CardVO> getAllCards(Integer accountId, CardType cardType);
 }
