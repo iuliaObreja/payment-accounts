@@ -1,7 +1,6 @@
 package org.example.rest.jackson;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
@@ -11,7 +10,7 @@ import java.util.Date;
 
 public class CustomDateSerializer extends StdSerializer<Date> {
 
-    private static SimpleDateFormat formatter
+    private static final SimpleDateFormat formatter
             = new SimpleDateFormat("dd-MM-yyyy");
 
     public CustomDateSerializer() {
@@ -25,7 +24,7 @@ public class CustomDateSerializer extends StdSerializer<Date> {
     @Override
     public void serialize(
             Date value, JsonGenerator gen, SerializerProvider arg2)
-            throws IOException, JsonProcessingException {
+            throws IOException {
         gen.writeString(formatter.format(value));
     }
 }

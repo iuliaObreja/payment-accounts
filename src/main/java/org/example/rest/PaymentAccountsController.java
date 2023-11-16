@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.CREATED;
+
 @RestController
 @RequestMapping("/payment/accounts")
 public class PaymentAccountsController {
@@ -20,7 +22,7 @@ public class PaymentAccountsController {
 
     @PostMapping
     public ResponseEntity<AccountVO> createAccount(@Valid @RequestBody AccountVO account) {
-        return ResponseEntity.ok(paymentAccountsService.createAccount(account));
+        return new ResponseEntity<AccountVO>(paymentAccountsService.createAccount(account), CREATED);
     }
 
     @GetMapping
