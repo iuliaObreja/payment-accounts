@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource(
         locations = "classpath:application-integrationtest.properties")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-public class PaymentAccountsControllerTest {
+public class PaymentAccountsControllerIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
