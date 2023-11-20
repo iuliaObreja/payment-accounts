@@ -1,4 +1,4 @@
-name: Build, push and deploy to Azure App Service
+name: [DEV] CI/CD to Azure App Service
 
 on:
   push:
@@ -49,7 +49,7 @@ jobs:
       DEV_URL: ${{ steps.deploy-to-service-app.outputs.webapp-url }}/actuator/health
       AZURE_APP_SERVICE_NAME: ${{ vars.AZURE_APP_SERVICE_NAME }}
     environment:
-      name: 'production'
+      name: 'development'
       url: "${{ steps.deploy-to-service-app.outputs.webapp-url }}/actuator/health"
 
     steps:
