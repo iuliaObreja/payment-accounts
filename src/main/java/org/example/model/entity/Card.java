@@ -3,8 +3,6 @@ package org.example.model.entity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.example.common.CardType;
 
 @Entity
