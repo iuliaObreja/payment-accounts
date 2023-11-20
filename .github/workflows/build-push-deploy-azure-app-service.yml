@@ -1,4 +1,4 @@
-name: [DEV] CI/CD to Azure App Service
+name: DEV CI/CD to Azure App Service
 
 on:
   push:
